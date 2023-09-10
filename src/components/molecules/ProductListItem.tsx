@@ -11,12 +11,12 @@ function formatPrice(price: number) {
 
 export const ProductListItem = ({ product: { image, category, name, price } }: Props) => {
 	return (
-		<div className="flex flex-col gap-2 rounded-2xl border bg-slate-300 p-2">
-			<p>
+		<li className="flex flex-col gap-2 rounded-2xl border bg-slate-300 p-2">
+			<h3>
 				{name} | {category}
-			</p>
+			</h3>
 			<p>{formatPrice(price)}</p>
 			<ProductListItemCoverImage {...image} />
-		</div>
+		</li>
 	);
 };
