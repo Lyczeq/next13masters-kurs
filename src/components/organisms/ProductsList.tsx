@@ -5,9 +5,12 @@ type Props = {
 	products: Product[];
 };
 
-export const ProductList = ({ products }: Props) => {
+export const ProductsList = ({ products }: Props) => {
 	return (
-		<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+		<div
+			data-testid="products-list"
+			className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
+		>
 			{products.map((product) => (
 				<ProductListItem key={product.id} product={product} />
 			))}

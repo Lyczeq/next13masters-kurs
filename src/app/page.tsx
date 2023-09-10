@@ -1,4 +1,4 @@
-import { ProductList } from "@/components/organisms/ProductList";
+import { ProductsList } from "@/components/organisms/ProductsList";
 
 const products = [
 	{
@@ -46,7 +46,7 @@ const products = [
 export default function Home() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-12">
-			<ProductList products={products} />
+			<ProductsList products={products} />
 		</main>
 	);
 }
