@@ -1,11 +1,23 @@
+import { type Metadata } from "next";
 import { ProductListItemCoverImage } from "@/components/atoms/ProductListItemCoverImage";
 import { type Product } from "@/types";
 
-type Props = {
+type Params = {
 	params: {
 		productId: string;
 	};
 };
+
+type Props = Params;
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+	const product = await getSingleProduct(params.productId);
+
+	return {
+		title: product.title,
+		description: product.description,
+	};
+}
 
 async function getSingleProduct(productId: string) {
 	const url = `https://naszsklep-api.vercel.app/api/products/${productId}`;
@@ -24,9 +36,8 @@ export default async function SingleProductPage({ params }: Props) {
 					<ProductListItemCoverImage src={product.image} alt={product.title} />
 				</div>
 				<div className="flex flex-col gap-4">
-					<p>
-						{product.title} | {product.category}
-					</p>
+					<h1>{product.title}</h1>
+					<p>{product.category}</p>
 					<p>{product.description}</p>
 				</div>
 			</div>
