@@ -1,7 +1,14 @@
-import Link, { type LinkProps } from "next/link";
-import { type PropsWithChildren } from "react";
+import { type Route } from "next";
+import Link from "next/link";
+import { type ReactNode } from "react";
 
-export const ActiveLink = ({ href, children }: PropsWithChildren<LinkProps>) => {
+type Props<T extends string> = {
+	href: Route<T>;
+	exact?: boolean;
+	children: ReactNode;
+};
+
+export const ActiveLink = <T extends string>({ href, children }: Props<T>) => {
 	return (
 		<Link
 			href={href}
