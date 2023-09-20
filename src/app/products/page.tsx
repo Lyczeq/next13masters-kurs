@@ -43,7 +43,7 @@ const products = [
 	},
 ];
 
-export default function Home() {
+export default function Products() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-12">
 			<ProductsList products={products} />
