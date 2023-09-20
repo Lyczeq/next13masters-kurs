@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ProductListItem } from "../molecules/ProductListItem";
 import { type Product } from "@/types";
 
@@ -12,7 +13,9 @@ export const ProductsList = ({ products }: Props) => {
 			className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
 		>
 			{products.map((product) => (
-				<ProductListItem key={product.id} product={product} />
+				<Link key={product.id} href={`/products/${product.id}`}>
+					<ProductListItem product={product} />
+				</Link>
 			))}
 		</ul>
 	);
