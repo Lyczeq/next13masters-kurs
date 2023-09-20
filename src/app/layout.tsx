@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
-			<body className={(cn(inter.className), "flex flex-col justify-center")}>
+			<body className={(cn(inter.className), "flex flex-col items-center")}>
 				<nav className="w-full max-w-screen-xl py-4">
 					<ul className="flex w-full justify-center gap-4">
 						<li>
