@@ -13,7 +13,7 @@ function formatPrice(price: number) {
 export const ProductListItem = ({ product: { image, category, title, price, id } }: Props) => {
 	return (
 		<li className="rounded-2xl border bg-slate-300">
-			<Link href={`/products/${id}`}>
+			<Link href={`/product/${id}`}>
 				<div className="flex flex-col gap-2 p-2">
 					<h3>
 						{title} | {category}
