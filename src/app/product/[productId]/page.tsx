@@ -10,6 +10,13 @@ type Params = {
 
 type Props = Params;
 
+export async function generateStaticParams() {
+	const url = `https://naszsklep-api.vercel.app/api/products`;
+	const response = await fetch(url);
+	const products = (await response.json()) as Product[];
+	return products.map((product) => product.id);
+}
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
 	const product = await getSingleProduct(params.productId);
 
