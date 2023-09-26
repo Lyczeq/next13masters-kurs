@@ -30,7 +30,7 @@ export const ActiveLink = <T extends string>({ href, children, exact }: Props<T>
 	});
 
 	return (
-		<Link href={href} className={styles} aria-current={isActive || undefined}>
+		<Link href={href} className={styles} {...(isActive && { "aria-current": "page" })}>
 			{children}
 		</Link>
 	);

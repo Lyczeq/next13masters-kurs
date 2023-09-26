@@ -32,8 +32,6 @@ async function getAllProducts(pageNumber: string) {
 
 export default async function Products({ params }: Props) {
 	const products = await getAllProducts(params.pageNumber);
-	console.log("a", params.pageNumber);
-	console.log(params.pagesCount);
 
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between gap-4 p-12">
