@@ -1,0 +1,5 @@
+query ProductsGetAllList {
+	products {
+		...ProductListItem
+	}
+}
