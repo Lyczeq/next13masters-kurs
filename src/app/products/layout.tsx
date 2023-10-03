@@ -1,10 +1,10 @@
 import { type PropsWithChildren } from "react";
-import { ProductsGetAllListDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphqlApi";
 import { Pagination } from "@/components/organisms/Pagination";
+import { ProductsGetListDocument } from "@/gql/graphql";
 
 export default async function Products({ children }: PropsWithChildren) {
-	const { products } = await executeGraphql(ProductsGetAllListDocument);
+	const { products } = await executeGraphql(ProductsGetListDocument, {});
 
 	return <Pagination totalProductsCount={products.length}>{children}</Pagination>;
 }
