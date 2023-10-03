@@ -1,0 +1,5 @@
+query ProductsGetRelatedProductsByCategory($categoryName: String!) {
+	products(where: { categories_some: { name: $categoryName } }) {
+		...ProductListItem
+	}
+}

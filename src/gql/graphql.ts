@@ -11498,6 +11498,13 @@ export type ProductsGetListQueryVariables = Exact<{
 
 export type ProductsGetListQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
 
+export type ProductsGetRelatedProductsByCategoryQueryVariables = Exact<{
+  categoryName: Scalars['String']['input'];
+}>;
+
+
+export type ProductsGetRelatedProductsByCategoryQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -11582,3 +11589,21 @@ export const ProductsGetListDocument = new TypedDocumentString(`
   }
   price
 }`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+export const ProductsGetRelatedProductsByCategoryDocument = new TypedDocumentString(`
+    query ProductsGetRelatedProductsByCategory($categoryName: String!) {
+  products(where: {categories_some: {name: $categoryName}}) {
+    ...ProductListItem
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  name
+  description
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+}`) as unknown as TypedDocumentString<ProductsGetRelatedProductsByCategoryQuery, ProductsGetRelatedProductsByCategoryQueryVariables>;
