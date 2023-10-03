@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { type Metadata } from "next";
 import { executeGraphql } from "@/api/graphqlApi";
 import { ProductsList } from "@/components/organisms/ProductsList";
 import { ProductsGetCategoryBySlugDocument } from "@/gql/graphql";
@@ -8,16 +9,22 @@ import { calculateSkipValue } from "@/utils/pagination";
 type Params = {
 	params: {
 		pageNumber: string;
-		categoryName: string;
+		categorySlug: string;
 	};
 };
 
 type Props = Params;
 
+export function generateMetadata({ params }: Params): Metadata {
+	return {
+		title: params.categorySlug,
+	};
+}
+
 async function ProductsByCategory({ params }: Props) {
 	const skip = calculateSkipValue(params.pageNumber);
 	const { categories } = await executeGraphql(ProductsGetCategoryBySlugDocument, {
-		slug: params.categoryName,
+		slug: params.categorySlug,
 		first: PRODUCTS_COUNT_PER_PAGE,
 		skip,
 	});
