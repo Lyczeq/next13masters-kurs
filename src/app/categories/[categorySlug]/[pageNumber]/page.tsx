@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { type Metadata } from "next";
 import { executeGraphql } from "@/api/graphqlApi";
 import { ProductsList } from "@/components/organisms/ProductsList";
-import { ProductsGetCategoryBySlugDocument } from "@/gql/graphql";
+import { CategoryGetBySlugDocument, ProductsGetCategoryBySlugDocument } from "@/gql/graphql";
 import { PRODUCTS_COUNT_PER_PAGE } from "@/constants";
 import { calculateSkipValue } from "@/utils/pagination";
 
@@ -15,9 +15,14 @@ type Params = {
 
 type Props = Params;
 
-export function generateMetadata({ params }: Params): Metadata {
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+	const { categories } = await executeGraphql(CategoryGetBySlugDocument, {
+		slug: params.categorySlug,
+	});
+
 	return {
-		title: params.categorySlug,
+		title: categories[0].name,
+		description: categories[0].description,
 	};
 }
 

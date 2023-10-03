@@ -1,7 +1,6 @@
 import { type ReactNode } from "react";
 import { notFound } from "next/navigation";
-import { type Metadata } from "next";
-import { CategoryGetBySlugDocument, ProductsGetCategoryBySlugDocument } from "@/gql/graphql";
+import { ProductsGetCategoryBySlugDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphqlApi";
 import { Pagination } from "@/components/organisms/Pagination";
 
@@ -12,17 +11,6 @@ type Params = {
 type Props = Params & {
 	children: ReactNode;
 };
-
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
-	const { categories } = await executeGraphql(CategoryGetBySlugDocument, {
-		slug: params.categorySlug,
-	});
-
-	return {
-		title: categories[0].name,
-		description: categories[0].description,
-	};
-}
 
 export default async function Products({ children, params }: Props) {
 	const { categories } = await executeGraphql(ProductsGetCategoryBySlugDocument, {
