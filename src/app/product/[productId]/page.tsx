@@ -2,7 +2,7 @@ import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductListItemCoverImage } from "@/components/atoms/ProductListItemCoverImage";
 import { executeGraphql } from "@/api/graphqlApi";
-import { ProductGetByIdDocument } from "@/gql/graphql";
+import { ProductGetByIdDocument, ProductsGetListDocument } from "@/gql/graphql";
 
 type Params = {
 	params: {
@@ -12,12 +12,10 @@ type Params = {
 
 type Props = Params;
 
-// export async function generateStaticParams() {
-// 	const url = `https://naszsklep-api.vercel.app/api/products`;
-// 	const response = await fetch(url);
-// 	const products = (await response.json()) as Product[];
-// 	return products.map((product) => product.id);
-// }
+export async function generateStaticParams() {
+	const a = await executeGraphql(ProductsGetListDocument, {});
+	return a.products.map((product) => product.id);
+}
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
 	const { product } = await executeGraphql(ProductGetByIdDocument, { id: params.productId });
