@@ -7,7 +7,7 @@ type Props = {
 };
 
 function formatPrice(price: number) {
-	return Intl.NumberFormat("en-us", { style: "currency", currency: "USD" }).format(price);
+	return Intl.NumberFormat("en-us", { style: "currency", currency: "USD" }).format(price / 100);
 }
 
 export const ProductListItem = ({ product: { images, categories, price, id, name } }: Props) => {
