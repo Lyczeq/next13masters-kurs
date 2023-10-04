@@ -5,7 +5,7 @@ import { executeGraphql } from "@/api/graphqlApi";
 import { Pagination } from "@/components/organisms/Pagination";
 
 type Params = {
-	params: { categoryName: string };
+	params: { categorySlug: string };
 };
 
 type Props = Params & {
@@ -14,12 +14,17 @@ type Props = Params & {
 
 export default async function Products({ children, params }: Props) {
 	const { categories } = await executeGraphql(ProductsGetCategoryBySlugDocument, {
-		slug: params.categoryName,
+		slug: params.categorySlug,
 	});
 
-	if (!categories[0].products.length) {
+	if (!categories[0]?.products.length) {
 		throw notFound();
 	}
 
-	return <Pagination totalProductsCount={categories[0].products.length}>{children}</Pagination>;
+	return (
+		<section className="flex flex-col gap-4">
+			<h1 className="text-center text-2xl font-bold">{categories[0].name}</h1>
+			<Pagination totalProductsCount={categories[0].products.length}>{children}</Pagination>;
+		</section>
+	);
 }
