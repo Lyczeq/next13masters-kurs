@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { type Metadata } from "next";
 import { executeGraphql } from "@/api/graphqlApi";
 import { ProductsList } from "@/components/organisms/ProductsList";
-import { CategoryGetBySlugDocument, ProductsGetListByCollectionSlugDocument } from "@/gql/graphql";
+import { ProductsGetListByCollectionSlugDocument } from "@/gql/graphql";
 
 type Params = {
 	params: {
