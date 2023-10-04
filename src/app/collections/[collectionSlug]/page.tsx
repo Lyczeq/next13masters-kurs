@@ -34,6 +34,7 @@ async function ProductsByCollection({ params }: Props) {
 
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between gap-4 p-12">
+			<h1 className="text-center text-2xl font-bold">{collections[0].name}</h1>
 			<ProductsList products={collections[0].products} />
 		</main>
 	);
