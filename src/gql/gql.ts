@@ -22,6 +22,7 @@ const documents = {
     "query ProductsGetCategoryBySlug($slug: String!, $skip: Int, $first: Int) {\n  categories(where: {slug: $slug}) {\n    name\n    products(first: $first, skip: $skip) {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetCategoryBySlugDocument,
     "query ProductsGetList($first: Int, $skip: Int) {\n  products(first: $first, skip: $skip) {\n    ...ProductListItem\n  }\n}": types.ProductsGetListDocument,
     "query ProductsGetListByCollectionSlug($collectionSlug: String!) {\n  collections(where: {slug: $collectionSlug}) {\n    name\n    description\n    products {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetListByCollectionSlugDocument,
+    "query ProductsGetListBySearchInpu($query: String!) {\n  products(where: {name_contains: $query}) {\n    ...ProductListItem\n  }\n}": types.ProductsGetListBySearchInpuDocument,
     "query ProductsGetRelatedProductsByCategory($categoryName: String!) {\n  products(where: {categories_some: {name: $categoryName}}) {\n    ...ProductListItem\n  }\n}": types.ProductsGetRelatedProductsByCategoryDocument,
 };
 
@@ -57,6 +58,10 @@ export function graphql(source: "query ProductsGetList($first: Int, $skip: Int) 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query ProductsGetListByCollectionSlug($collectionSlug: String!) {\n  collections(where: {slug: $collectionSlug}) {\n    name\n    description\n    products {\n      ...ProductListItem\n    }\n  }\n}"): typeof import('./graphql').ProductsGetListByCollectionSlugDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query ProductsGetListBySearchInpu($query: String!) {\n  products(where: {name_contains: $query}) {\n    ...ProductListItem\n  }\n}"): typeof import('./graphql').ProductsGetListBySearchInpuDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
