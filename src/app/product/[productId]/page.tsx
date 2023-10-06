@@ -8,6 +8,7 @@ import {
 	ProductsGetRelatedProductsByCategoryDocument,
 } from "@/gql/graphql";
 import { ProductListItem } from "@/components/molecules/ProductListItem";
+import { VariantSelect } from "@/components/molecules/VariantSelect";
 
 type Params = {
 	params: {
@@ -52,7 +53,10 @@ async function RelatedProducts({ category }: P) {
 }
 
 export default async function SingleProductPage({ params }: Props) {
-	const { product } = await executeGraphql(ProductGetByIdDocument, { id: params.productId });
+	const { product, productSizeColorVariants: variants } = await executeGraphql(
+		ProductGetByIdDocument,
+		{ id: params.productId },
+	);
 
 	if (!product) {
 		throw notFound();
@@ -70,6 +74,7 @@ export default async function SingleProductPage({ params }: Props) {
 					<h1 className="text-2xl font-bold">{product.name}</h1>
 					{product.categories[0] && <p>{product.categories[0].name}</p>}
 					<p>{product.description}</p>
+					<VariantSelect variants={variants} productId={product.id} />
 				</div>
 			</div>
 			{product.categories[0] && (

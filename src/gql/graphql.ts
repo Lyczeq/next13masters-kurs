@@ -11486,12 +11486,14 @@ export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CollectionsGetListQuery = { collections: Array<{ name: string, slug: string, image: { url: string } }> };
 
+export type ProductDetailsProductSizeColorVariantFragment = { color: ProductColor, size: ProductSize };
+
 export type ProductGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type ProductGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null };
+export type ProductGetByIdQuery = { productSizeColorVariants: Array<{ color: ProductColor, size: ProductSize }>, product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null };
 
 export type ProductListItemFragment = { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> };
 
@@ -11556,6 +11558,12 @@ export const CollectionListItemFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"CollectionListItem"}) as unknown as TypedDocumentString<CollectionListItemFragment, unknown>;
+export const ProductDetailsProductSizeColorVariantFragmentDoc = new TypedDocumentString(`
+    fragment ProductDetailsProductSizeColorVariant on ProductSizeColorVariant {
+  color
+  size
+}
+    `, {"fragmentName":"ProductDetailsProductSizeColorVariant"}) as unknown as TypedDocumentString<ProductDetailsProductSizeColorVariantFragment, unknown>;
 export const ProductListItemFragmentDoc = new TypedDocumentString(`
     fragment ProductListItem on Product {
   id
@@ -11594,6 +11602,10 @@ export const CollectionsGetListDocument = new TypedDocumentString(`
 }`) as unknown as TypedDocumentString<CollectionsGetListQuery, CollectionsGetListQueryVariables>;
 export const ProductGetByIdDocument = new TypedDocumentString(`
     query ProductGetById($id: ID!) {
+  productSizeColorVariants(where: {product: {id: $id}}) {
+    color
+    size
+  }
   product(where: {id: $id}) {
     ...ProductListItem
   }
