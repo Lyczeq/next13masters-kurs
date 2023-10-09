@@ -1,14 +1,11 @@
 import Link from "next/link";
 import { ProductListItemCoverImage } from "../atoms/ProductListItemCoverImage";
 import { type ProductListItemFragment } from "@/gql/graphql";
+import { formatPrice } from "@/utils/currency";
 
 type Props = {
 	product: ProductListItemFragment;
 };
-
-function formatPrice(price: number) {
-	return Intl.NumberFormat("en-us", { style: "currency", currency: "USD" }).format(price / 100);
-}
 
 export const ProductListItem = ({ product: { images, categories, price, id, name } }: Props) => {
 	return (

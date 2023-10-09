@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/utils/cn";
 import { ActiveLink } from "@/components/atoms/ActiveLink";
 import { SearchInput } from "@/components/molecules/SearchInput";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						</ul>
 					</nav>
 					<SearchInput />
+					<Link href="/cart">Cart</Link>
 				</header>
 				{children}
 			</body>
