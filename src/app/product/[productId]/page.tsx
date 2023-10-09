@@ -1,5 +1,6 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import { ProductListItemCoverImage } from "@/components/atoms/ProductListItemCoverImage";
 import { executeGraphql } from "@/api/graphqlApi";
 import {
@@ -7,8 +8,9 @@ import {
 	ProductsGetListDocument,
 	ProductsGetRelatedProductsByCategoryDocument,
 } from "@/gql/graphql";
+import { AddToCartButton } from "@/components/atoms/AddToCartButton";
 import { ProductListItem } from "@/components/molecules/ProductListItem";
-
+import { addToCart, getOrCreateCart } from "@/api/cart";
 type Params = {
 	params: {
 		productId: string;
@@ -34,6 +36,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 type P = {
 	category: string;
 };
+
 async function RelatedProducts({ category }: P) {
 	const { products } = await executeGraphql(ProductsGetRelatedProductsByCategoryDocument, {
 		categoryName: category,
@@ -58,6 +61,14 @@ export default async function SingleProductPage({ params }: Props) {
 		throw notFound();
 	}
 
+	async function addToCartAction() {
+		"use server";
+
+		const cart = await getOrCreateCart();
+		cookies().set("cartId", cart.id);
+		await addToCart(cart.id, params.productId);
+	}
+
 	return (
 		<div className="flex flex-col gap-20">
 			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -70,6 +81,10 @@ export default async function SingleProductPage({ params }: Props) {
 					<h1 className="text-2xl font-bold">{product.name}</h1>
 					{product.categories[0] && <p>{product.categories[0].name}</p>}
 					<p>{product.description}</p>
+
+					<form action={addToCartAction}>
+						<AddToCartButton />
+					</form>
 				</div>
 			</div>
 			{product.categories[0] && (
