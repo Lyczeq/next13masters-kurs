@@ -5,7 +5,7 @@ import { Navbar } from "./Navbar";
 
 export async function Header() {
 	const cart = await getCartFromCookies();
-	const itemsQuantity = cart?.orderItems.length;
+	const itemsQuantity = cart?.orderItems.length ?? 0;
 
 	return (
 		<header className="flex max-w-screen-xl items-center gap-10 py-4">

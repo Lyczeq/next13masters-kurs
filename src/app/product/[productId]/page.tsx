@@ -11,6 +11,7 @@ import {
 import { AddToCartButton } from "@/components/atoms/AddToCartButton";
 import { ProductListItem } from "@/components/molecules/ProductListItem";
 import { addToCart, getOrCreateCart } from "@/api/cart";
+import { revalidatePath, revalidateTag } from "next/cache";
 type Params = {
 	params: {
 		productId: string;
@@ -20,12 +21,15 @@ type Params = {
 type Props = Params;
 
 export async function generateStaticParams() {
-	const a = await executeGraphql(ProductsGetListDocument, {});
+	const a = await executeGraphql({ query: ProductsGetListDocument, variables: {} });
 	return a.products.map((product) => product.id);
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-	const { product } = await executeGraphql(ProductGetByIdDocument, { id: params.productId });
+	const { product } = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: { id: params.productId },
+	});
 
 	return {
 		title: product?.name,
@@ -38,8 +42,11 @@ type P = {
 };
 
 async function RelatedProducts({ category }: P) {
-	const { products } = await executeGraphql(ProductsGetRelatedProductsByCategoryDocument, {
-		categoryName: category,
+	const { products } = await executeGraphql({
+		query: ProductsGetRelatedProductsByCategoryDocument,
+		variables: {
+			categoryName: category,
+		},
 	});
 
 	return (
@@ -55,7 +62,10 @@ async function RelatedProducts({ category }: P) {
 }
 
 export default async function SingleProductPage({ params }: Props) {
-	const { product } = await executeGraphql(ProductGetByIdDocument, { id: params.productId });
+	const { product } = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: { id: params.productId },
+	});
 
 	if (!product) {
 		throw notFound();
@@ -65,6 +75,7 @@ export default async function SingleProductPage({ params }: Props) {
 		"use server";
 		const cart = await getOrCreateCart();
 		await addToCart(cart.id, params.productId);
+		revalidateTag("cart");
 	}
 
 	return (

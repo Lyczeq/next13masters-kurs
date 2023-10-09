@@ -13,8 +13,11 @@ type Props = Params & {
 };
 
 export default async function Products({ children, params }: Props) {
-	const { categories } = await executeGraphql(ProductsGetCategoryBySlugDocument, {
-		slug: params.categorySlug,
+	const { categories } = await executeGraphql({
+		query: ProductsGetCategoryBySlugDocument,
+		variables: {
+			slug: params.categorySlug,
+		},
 	});
 
 	if (!categories[0]?.products.length) {

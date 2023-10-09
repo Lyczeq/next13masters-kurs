@@ -10,8 +10,11 @@ type Props = {
 
 export default async function SearchPage({ searchParams }: Props) {
 	const query = searchParams.query;
-	const { products } = await executeGraphql(ProductsGetListBySearchInpuDocument, {
-		query,
+	const { products } = await executeGraphql({
+		query: ProductsGetListBySearchInpuDocument,
+		variables: {
+			query,
+		},
 	});
 
 	return <div>{<ProductsList products={products} />}</div>;

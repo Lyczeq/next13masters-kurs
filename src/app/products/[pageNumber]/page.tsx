@@ -23,9 +23,12 @@ type Props = Params;
 
 export default async function Products({ params }: Props) {
 	const skip = calculateSkipValue(params.pageNumber);
-	const { products } = await executeGraphql(ProductsGetListDocument, {
-		first: PRODUCTS_COUNT_PER_PAGE,
-		skip,
+	const { products } = await executeGraphql({
+		query: ProductsGetListDocument,
+		variables: {
+			first: PRODUCTS_COUNT_PER_PAGE,
+			skip,
+		},
 	});
 
 	return (

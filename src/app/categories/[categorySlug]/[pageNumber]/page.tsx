@@ -16,8 +16,11 @@ type Params = {
 type Props = Params;
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-	const { categories } = await executeGraphql(CategoryGetBySlugDocument, {
-		slug: params.categorySlug,
+	const { categories } = await executeGraphql({
+		query: CategoryGetBySlugDocument,
+		variables: {
+			slug: params.categorySlug,
+		},
 	});
 
 	return {
@@ -28,10 +31,13 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 async function ProductsByCategory({ params }: Props) {
 	const skip = calculateSkipValue(params.pageNumber);
-	const { categories } = await executeGraphql(ProductsGetCategoryBySlugDocument, {
-		slug: params.categorySlug,
-		first: PRODUCTS_COUNT_PER_PAGE,
-		skip,
+	const { categories } = await executeGraphql({
+		query: ProductsGetCategoryBySlugDocument,
+		variables: {
+			slug: params.categorySlug,
+			first: PRODUCTS_COUNT_PER_PAGE,
+			skip,
+		},
 	});
 
 	if (!categories[0]) {
