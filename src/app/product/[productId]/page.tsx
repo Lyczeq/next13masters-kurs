@@ -63,9 +63,7 @@ export default async function SingleProductPage({ params }: Props) {
 
 	async function addToCartAction() {
 		"use server";
-
 		const cart = await getOrCreateCart();
-		cookies().set("cartId", cart.id);
 		await addToCart(cart.id, params.productId);
 	}
 
