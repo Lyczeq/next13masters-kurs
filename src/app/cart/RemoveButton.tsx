@@ -14,12 +14,12 @@ export const RemoveButton = ({ itemId }: Props) => {
 		<button
 			className="text-red-300 disabled:text-gray-400"
 			disabled={isPending}
-			onClick={() =>
+			onClick={async () => {
 				startTransition(async () => {
 					await removeItem(itemId);
 					router.refresh();
-				})
-			}
+				});
+			}}
 		>
 			Remove
 		</button>
