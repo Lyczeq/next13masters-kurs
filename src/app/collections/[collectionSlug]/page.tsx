@@ -13,8 +13,11 @@ type Params = {
 type Props = Params;
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-	const { collections } = await executeGraphql(ProductsGetListByCollectionSlugDocument, {
-		collectionSlug: params.collectionSlug,
+	const { collections } = await executeGraphql({
+		query: ProductsGetListByCollectionSlugDocument,
+		variables: {
+			collectionSlug: params.collectionSlug,
+		},
 	});
 
 	return {
@@ -24,8 +27,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 async function ProductsByCollection({ params }: Props) {
-	const { collections } = await executeGraphql(ProductsGetListByCollectionSlugDocument, {
-		collectionSlug: params.collectionSlug,
+	const { collections } = await executeGraphql({
+		query: ProductsGetListByCollectionSlugDocument,
+		variables: {
+			collectionSlug: params.collectionSlug,
+		},
 	});
 
 	if (!collections[0].products) {
