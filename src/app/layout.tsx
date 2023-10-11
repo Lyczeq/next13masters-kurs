@@ -14,12 +14,19 @@ export const metadata: Metadata = {
 	title: "Next 13 Masters App",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+	children,
+	modal,
+}: {
+	children: React.ReactNode;
+	modal: React.ReactNode;
+}) {
 	return (
 		<html lang="en">
 			<body className={(cn(inter.className), "flex flex-col items-center px-4")}>
 				<Header />
 				{children}
+				{modal}
 			</body>
 		</html>
 	);
