@@ -3,6 +3,7 @@ import { getCartFromCookies } from "@/api/cart";
 import { formatPrice } from "@/utils/currency";
 import { IncrementProductQuantity } from "./IncrementProductQuantity";
 import { RemoveButton } from "./RemoveButton";
+import { handlePaymentAction } from "./actions";
 
 export default async function CartPage() {
 	const cart = await getCartFromCookies();
@@ -41,6 +42,14 @@ export default async function CartPage() {
 					})}
 				</tbody>
 			</table>
+			<form action={handlePaymentAction}>
+				<button
+					type="submit"
+					className="rounded-xl border bg-slate-500 px-4 py-2 text-white transition-colors hover:bg-slate-600"
+				>
+					Pay
+				</button>
+			</form>
 		</div>
 	);
 }

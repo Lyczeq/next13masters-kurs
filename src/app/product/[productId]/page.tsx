@@ -1,17 +1,15 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
-import { cookies } from "next/headers";
 import { ProductListItemCoverImage } from "@/components/atoms/ProductListItemCoverImage";
 import { executeGraphql } from "@/api/graphqlApi";
 import {
 	ProductGetByIdDocument,
-	ProductsGetListDocument,
 	ProductsGetRelatedProductsByCategoryDocument,
 } from "@/gql/graphql";
 import { AddToCartButton } from "@/components/atoms/AddToCartButton";
 import { ProductListItem } from "@/components/molecules/ProductListItem";
 import { addToCart, getOrCreateCart } from "@/api/cart";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 type Params = {
 	params: {
 		productId: string;
@@ -19,11 +17,6 @@ type Params = {
 };
 
 type Props = Params;
-
-export async function generateStaticParams() {
-	const a = await executeGraphql({ query: ProductsGetListDocument, variables: {} });
-	return a.products.map((product) => product.id);
-}
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
 	const { product } = await executeGraphql({
