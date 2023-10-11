@@ -11571,6 +11571,25 @@ export type ProductsGetRelatedProductsByCategoryQueryVariables = Exact<{
 
 export type ProductsGetRelatedProductsByCategoryQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
 
+export type ReviewAddReviewMutationVariables = Exact<{
+  content: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  rating: Scalars['Int']['input'];
+  headline: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ReviewAddReviewMutation = { createReview?: { id: string } | null };
+
+export type ReviewsGetListByProductIdQueryVariables = Exact<{
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ReviewsGetListByProductIdQuery = { reviews: Array<{ id: string, rating: number, email: string, name: string, content: string, headline: string }> };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -11818,3 +11837,24 @@ export const ProductsGetRelatedProductsByCategoryDocument = new TypedDocumentStr
   }
   price
 }`) as unknown as TypedDocumentString<ProductsGetRelatedProductsByCategoryQuery, ProductsGetRelatedProductsByCategoryQueryVariables>;
+export const ReviewAddReviewDocument = new TypedDocumentString(`
+    mutation ReviewAddReview($content: String!, $email: String!, $name: String!, $rating: Int!, $headline: String!, $productId: ID!) {
+  createReview(
+    data: {content: $content, email: $email, name: $name, rating: $rating, headline: $headline, product: {connect: {id: $productId}}}
+  ) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ReviewAddReviewMutation, ReviewAddReviewMutationVariables>;
+export const ReviewsGetListByProductIdDocument = new TypedDocumentString(`
+    query ReviewsGetListByProductId($productId: ID!) {
+  reviews(where: {product: {id: $productId}}) {
+    id
+    rating
+    email
+    name
+    content
+    headline
+  }
+}
+    `) as unknown as TypedDocumentString<ReviewsGetListByProductIdQuery, ReviewsGetListByProductIdQueryVariables>;
