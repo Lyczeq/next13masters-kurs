@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCartFromCookies } from "@/api/cart";
 import { formatPrice } from "@/utils/currency";
-import { IncrementProductQuantity } from "./IncrementProductQuantity";
+import { ChangeProductQuantity } from "./IncrementProductQuantity";
 import { RemoveButton } from "./RemoveButton";
 import { handlePaymentAction } from "./actions";
 
@@ -13,9 +13,12 @@ export default async function CartPage() {
 	}
 
 	const totalSum = cart.orderItems.reduce(
-		(accumulator, currentItem) => (accumulator = accumulator + (currentItem.product?.price ?? 0)),
+		(accumulator, currentItem) =>
+			(accumulator = accumulator + (currentItem.product?.price ?? 0) * currentItem.quantity),
 		0,
 	);
+
+	console.log(cart.orderItems);
 
 	return (
 		<div>
@@ -39,7 +42,7 @@ export default async function CartPage() {
 							<tr key={item.id}>
 								<td>{item.product.name}</td>
 								<td className="items-center">
-									<IncrementProductQuantity quantity={item.quantity} itemId={item.id} />
+									<ChangeProductQuantity quantity={item.quantity} itemId={item.id} />
 								</td>
 								<td>{formatPrice(item.product.price)}</td>
 								<td>

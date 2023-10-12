@@ -4,21 +4,34 @@ import { getCartFromCookies } from "@/api/cart";
 import { executeGraphql } from "@/api/graphqlApi";
 import {
 	CartCreateFragment,
+	CartDeleteOrderItemDocument,
 	CartRemoveProductDocument,
 	CartSetProductQuantityDocument,
 } from "@/gql/graphql";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
 
 export async function changeItemQuantity(itemId: string, quantity: number) {
-	return executeGraphql({
+	await executeGraphql({
 		query: CartSetProductQuantityDocument,
 		variables: {
 			itemId,
 			quantity,
 		},
 	});
+	revalidateTag("cart");
+}
+
+export async function removeProductFromOrderItem(itemId: string) {
+	await executeGraphql({
+		query: CartDeleteOrderItemDocument,
+		variables: {
+			itemId,
+		},
+	});
+	revalidateTag("cart");
 }
 
 export async function removeItem(itemId: string) {

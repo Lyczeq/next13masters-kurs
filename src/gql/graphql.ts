@@ -11495,16 +11495,23 @@ export type CartChangeProductQuantityMutation = { updateOrderItem?: { id: string
 export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CartCreateMutation = { createOrder?: { id: string, total: number, orderItems: Array<{ id: string, total: number, quantity: number, product?: { id: string, name: string, price: number } | null }> } | null };
+export type CartCreateMutation = { createOrder?: { id: string, orderItems: Array<{ id: string, total: number, quantity: number, product?: { id: string, name: string, price: number } | null }> } | null };
+
+export type CartDeleteOrderItemMutationVariables = Exact<{
+  itemId: Scalars['ID']['input'];
+}>;
+
+
+export type CartDeleteOrderItemMutation = { deleteOrderItem?: { id: string } | null };
 
 export type CartGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type CartGetByIdQuery = { order?: { id: string, total: number, orderItems: Array<{ id: string, total: number, quantity: number, product?: { id: string, name: string, price: number } | null }> } | null };
+export type CartGetByIdQuery = { order?: { id: string, orderItems: Array<{ id: string, total: number, quantity: number, product?: { id: string, name: string, price: number } | null }> } | null };
 
-export type CartCreateFragment = { id: string, total: number, orderItems: Array<{ id: string, total: number, quantity: number, product?: { id: string, name: string, price: number } | null }> };
+export type CartCreateFragment = { id: string, orderItems: Array<{ id: string, total: number, quantity: number, product?: { id: string, name: string, price: number } | null }> };
 
 export type CartRemoveProductMutationVariables = Exact<{
   itemId: Scalars['ID']['input'];
@@ -11618,7 +11625,6 @@ export class TypedDocumentString<TResult, TVariables>
 export const CartCreateFragmentDoc = new TypedDocumentString(`
     fragment CartCreate on Order {
   id
-  total
   orderItems {
     id
     total
@@ -11681,7 +11687,6 @@ export const CartCreateDocument = new TypedDocumentString(`
 }
     fragment CartCreate on Order {
   id
-  total
   orderItems {
     id
     total
@@ -11693,6 +11698,13 @@ export const CartCreateDocument = new TypedDocumentString(`
     }
   }
 }`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
+export const CartDeleteOrderItemDocument = new TypedDocumentString(`
+    mutation CartDeleteOrderItem($itemId: ID!) {
+  deleteOrderItem(where: {id: $itemId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CartDeleteOrderItemMutation, CartDeleteOrderItemMutationVariables>;
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($id: ID!) {
   order(where: {id: $id}, stage: DRAFT) {
@@ -11701,7 +11713,6 @@ export const CartGetByIdDocument = new TypedDocumentString(`
 }
     fragment CartCreate on Order {
   id
-  total
   orderItems {
     id
     total
