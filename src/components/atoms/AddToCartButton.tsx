@@ -6,6 +6,7 @@ export const AddToCartButton = () => {
 	const { pending } = useFormStatus();
 	return (
 		<button
+			data-testid="add-to-cart-button"
 			type="submit"
 			disabled={pending}
 			className="rounded-xl border bg-slate-300 px-4 py-2 transition-colors hover:bg-slate-400 disabled:cursor-wait"

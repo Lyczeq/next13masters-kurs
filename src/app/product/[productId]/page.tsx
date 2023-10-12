@@ -100,7 +100,7 @@ export default async function SingleProductPage({ params }: Props) {
 	async function addToCartAction() {
 		"use server";
 		const cart = await getOrCreateCart();
-		await addToCart(cart.id, params.productId);
+		await addToCart(cart, params.productId);
 		revalidateTag("cart");
 	}
 

@@ -15,9 +15,11 @@ import * as types from './graphql';
  */
 const documents = {
     "mutation CartAddProduct($orderId: ID!, $productId: ID!, $total: Int!) {\n  createOrderItem(\n    data: {quantity: 1, total: $total, product: {connect: {id: $productId}}, order: {connect: {id: $orderId}}}\n  ) {\n    id\n  }\n}": types.CartAddProductDocument,
+    "mutation CartChangeProductQuantity($orderItemId: ID!, $productId: ID!, $quantity: Int!, $orderId: ID!, $total: Int!) {\n  updateOrderItem(\n    where: {id: $orderItemId}\n    data: {quantity: $quantity, order: {connect: {id: $orderId}}, product: {connect: {id: $productId}}, total: $total}\n  ) {\n    id\n  }\n}": types.CartChangeProductQuantityDocument,
     "mutation CartCreate {\n  createOrder(data: {total: 0}) {\n    ...CartCreate\n  }\n}": types.CartCreateDocument,
+    "mutation CartDeleteOrderItem($itemId: ID!) {\n  deleteOrderItem(where: {id: $itemId}) {\n    id\n  }\n}": types.CartDeleteOrderItemDocument,
     "query CartGetById($id: ID!) {\n  order(where: {id: $id}, stage: DRAFT) {\n    ...CartCreate\n  }\n}": types.CartGetByIdDocument,
-    "fragment CartCreate on Order {\n  id\n  orderItems {\n    id\n    quantity\n    product {\n      id\n      name\n      price\n    }\n  }\n}": types.CartCreateFragmentDoc,
+    "fragment CartCreate on Order {\n  id\n  orderItems {\n    id\n    total\n    quantity\n    product {\n      id\n      name\n      price\n    }\n  }\n}": types.CartCreateFragmentDoc,
     "mutation CartRemoveProduct($itemId: ID!) {\n  deleteOrderItem(where: {id: $itemId}) {\n    id\n  }\n}": types.CartRemoveProductDocument,
     "mutation CartSetProductQuantity($itemId: ID!, $quantity: Int!) {\n  updateOrderItem(where: {id: $itemId}, data: {quantity: $quantity}) {\n    id\n  }\n}": types.CartSetProductQuantityDocument,
     "query CategoryGetBySlug($slug: String!) {\n  categories(where: {slug: $slug}) {\n    name\n    description\n    slug\n  }\n}": types.CategoryGetBySlugDocument,
@@ -41,7 +43,15 @@ export function graphql(source: "mutation CartAddProduct($orderId: ID!, $product
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "mutation CartChangeProductQuantity($orderItemId: ID!, $productId: ID!, $quantity: Int!, $orderId: ID!, $total: Int!) {\n  updateOrderItem(\n    where: {id: $orderItemId}\n    data: {quantity: $quantity, order: {connect: {id: $orderId}}, product: {connect: {id: $productId}}, total: $total}\n  ) {\n    id\n  }\n}"): typeof import('./graphql').CartChangeProductQuantityDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "mutation CartCreate {\n  createOrder(data: {total: 0}) {\n    ...CartCreate\n  }\n}"): typeof import('./graphql').CartCreateDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation CartDeleteOrderItem($itemId: ID!) {\n  deleteOrderItem(where: {id: $itemId}) {\n    id\n  }\n}"): typeof import('./graphql').CartDeleteOrderItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -49,7 +59,7 @@ export function graphql(source: "query CartGetById($id: ID!) {\n  order(where: {
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "fragment CartCreate on Order {\n  id\n  orderItems {\n    id\n    quantity\n    product {\n      id\n      name\n      price\n    }\n  }\n}"): typeof import('./graphql').CartCreateFragmentDoc;
+export function graphql(source: "fragment CartCreate on Order {\n  id\n  orderItems {\n    id\n    total\n    quantity\n    product {\n      id\n      name\n      price\n    }\n  }\n}"): typeof import('./graphql').CartCreateFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
