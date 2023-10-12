@@ -65,7 +65,7 @@ export async function addToCart(cart: CartCreateFragment, productId: string) {
 	);
 
 	if (!existingOrderItem?.product) {
-		await executeGraphql({
+		return await executeGraphql({
 			query: CartAddProductDocument,
 			variables: {
 				orderId: cart.id,
@@ -74,7 +74,7 @@ export async function addToCart(cart: CartCreateFragment, productId: string) {
 			},
 		});
 	} else {
-		await executeGraphql({
+		return await executeGraphql({
 			query: CartChangeProductQuantityDocument,
 			variables: {
 				orderItemId: existingOrderItem.id,
