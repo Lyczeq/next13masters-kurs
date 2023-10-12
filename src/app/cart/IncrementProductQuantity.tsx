@@ -11,7 +11,6 @@ export const ChangeProductQuantity = ({ itemId, quantity }: Props) => {
 	const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(quantity);
 
 	const incrementProductQuantity = async () => {
-		console.log("aaa");
 		const incrementedOptimisticQuantity = optimisticQuantity + 1;
 		setOptimisticQuantity(incrementedOptimisticQuantity);
 		await changeItemQuantity(itemId, incrementedOptimisticQuantity);
@@ -19,7 +18,6 @@ export const ChangeProductQuantity = ({ itemId, quantity }: Props) => {
 
 	const decrementProductQuantity = async () => {
 		if (optimisticQuantity === 1) {
-			console.log("vvvv");
 			await removeProductFromOrderItem(itemId);
 			return;
 		}
