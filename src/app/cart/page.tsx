@@ -12,9 +12,15 @@ export default async function CartPage() {
 		redirect("/");
 	}
 
+	const totalSum = cart.orderItems.reduce(
+		(accumulator, currentItem) => (accumulator = accumulator + (currentItem.product?.price ?? 0)),
+		0,
+	);
+
 	return (
 		<div>
 			<h1>Order #{cart.id} summary</h1>
+			<h2>Total {formatPrice(totalSum)}</h2>
 			<table>
 				<thead>
 					<tr>

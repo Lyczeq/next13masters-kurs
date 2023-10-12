@@ -1,0 +1,19 @@
+mutation CartChangeProductQuantity(
+	$orderItemId: ID!
+	$productId: ID!
+	$quantity: Int!
+	$orderId: ID!
+	$total: Int!
+) {
+	updateOrderItem(
+		where: { id: $orderItemId }
+		data: {
+			quantity: $quantity
+			order: { connect: { id: $orderId } }
+			product: { connect: { id: $productId } }
+			total: $total
+		}
+	) {
+		id
+	}
+}
