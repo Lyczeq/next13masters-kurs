@@ -36,7 +36,9 @@ export default async function CartPage() {
 									<IncrementProductQuantity quantity={item.quantity} itemId={item.id} />
 								</td>
 								<td>{formatPrice(item.product.price)}</td>
-								<RemoveButton itemId={item.id} />
+								<td>
+									<RemoveButton itemId={item.id} />
+								</td>
 							</tr>
 						);
 					})}

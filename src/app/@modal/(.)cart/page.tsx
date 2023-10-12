@@ -3,7 +3,7 @@ import { getCartFromCookies } from "@/api/cart";
 
 export default async function ModalCart() {
 	const cart = await getCartFromCookies();
-	console.log("aaa");
+
 	return (
 		<>
 			<Overlay />
