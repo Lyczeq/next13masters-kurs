@@ -20,6 +20,9 @@ export async function changeItemQuantity(itemId: string, quantity: number) {
 			itemId,
 			quantity,
 		},
+		next: {
+			tags: ["cart"],
+		},
 	});
 	revalidateTag("cart");
 }
@@ -29,6 +32,9 @@ export async function removeProductFromOrderItem(itemId: string) {
 		query: CartDeleteOrderItemDocument,
 		variables: {
 			itemId,
+		},
+		next: {
+			tags: ["cart"],
 		},
 	});
 	revalidateTag("cart");
