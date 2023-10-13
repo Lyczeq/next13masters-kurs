@@ -1,0 +1,7 @@
+query ProductsSortByReviewsRating($first: Int, $skip: Int, $rating: ReviewOrderByInput) {
+	reviews(first: $first, skip: $skip, orderBy: $rating) {
+		product {
+			...ProductListItem
+		}
+	}
+}

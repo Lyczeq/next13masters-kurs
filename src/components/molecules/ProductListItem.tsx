@@ -2,21 +2,16 @@ import Link from "next/link";
 import { ProductListItemCoverImage } from "../atoms/ProductListItemCoverImage";
 import { type ProductListItemFragment } from "@/gql/graphql";
 import { formatPrice } from "@/utils/currency";
+import { calculateAverageRating } from "@/utils/reviews";
 
 type Props = {
 	product: ProductListItemFragment;
 };
 
-export const ProductListItem = ({
-	product: { images, categories, price, id, name, reviews },
-}: Props) => {
-	const reviewsCount = reviews.length;
+export const ProductListItem = ({ product }: Props) => {
+	const { images, categories, price, id, name, reviews } = product;
 
-	const averageRating =
-		reviews.reduce((accumulator, currentReview) => {
-			return (accumulator += currentReview.rating);
-		}, 0) / reviewsCount;
-
+	const averageRating = calculateAverageRating(product);
 	return (
 		<li className="rounded-2xl border bg-slate-300">
 			<Link href={`/product/${id}`}>

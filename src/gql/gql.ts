@@ -28,10 +28,11 @@ const documents = {
     "query ProductGetById($id: ID!) {\n  product(where: {id: $id}) {\n    ...ProductListItem\n  }\n}": types.ProductGetByIdDocument,
     "fragment ProductListItem on Product {\n  id\n  name\n  description\n  reviews {\n    rating\n  }\n  categories(first: 1) {\n    name\n  }\n  images(first: 1) {\n    url\n  }\n  price\n}": types.ProductListItemFragmentDoc,
     "query ProductsGetCategoryBySlug($slug: String!, $skip: Int, $first: Int) {\n  categories(where: {slug: $slug}) {\n    name\n    products(first: $first, skip: $skip) {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetCategoryBySlugDocument,
-    "query ProductsGetList($first: Int, $skip: Int, $rating: Int) {\n  products(\n    first: $first\n    skip: $skip\n    where: {reviews_some: {rating_gte: $rating}}\n  ) {\n    ...ProductListItem\n  }\n}": types.ProductsGetListDocument,
+    "query ProductsGetList($first: Int, $skip: Int) {\n  products(first: $first, skip: $skip) {\n    ...ProductListItem\n  }\n}": types.ProductsGetListDocument,
     "query ProductsGetListByCollectionSlug($collectionSlug: String!) {\n  collections(where: {slug: $collectionSlug}) {\n    name\n    description\n    products {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetListByCollectionSlugDocument,
     "query ProductsGetListBySearchInpu($query: String!) {\n  products(where: {name_contains: $query}) {\n    ...ProductListItem\n  }\n}": types.ProductsGetListBySearchInpuDocument,
     "query ProductsGetRelatedProductsByCategory($categoryName: String!) {\n  products(where: {categories_some: {name: $categoryName}}) {\n    ...ProductListItem\n  }\n}": types.ProductsGetRelatedProductsByCategoryDocument,
+    "query ProductsSortByReviewsRating($first: Int, $skip: Int, $rating: ReviewOrderByInput) {\n  reviews(first: $first, skip: $skip, orderBy: $rating) {\n    product {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsSortByReviewsRatingDocument,
     "mutation ReviewAddReview($content: String!, $email: String!, $name: String!, $rating: Int!, $headline: String!, $productId: ID!) {\n  createReview(\n    data: {content: $content, email: $email, name: $name, rating: $rating, headline: $headline, product: {connect: {id: $productId}}}\n  ) {\n    id\n  }\n}": types.ReviewAddReviewDocument,
     "query ReviewsGetListByProductId($productId: ID!) {\n  reviews(where: {product: {id: $productId}}) {\n    id\n    rating\n    email\n    name\n    content\n    headline\n  }\n}": types.ReviewsGetListByProductIdDocument,
 };
@@ -95,7 +96,7 @@ export function graphql(source: "query ProductsGetCategoryBySlug($slug: String!,
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query ProductsGetList($first: Int, $skip: Int, $rating: Int) {\n  products(\n    first: $first\n    skip: $skip\n    where: {reviews_some: {rating_gte: $rating}}\n  ) {\n    ...ProductListItem\n  }\n}"): typeof import('./graphql').ProductsGetListDocument;
+export function graphql(source: "query ProductsGetList($first: Int, $skip: Int) {\n  products(first: $first, skip: $skip) {\n    ...ProductListItem\n  }\n}"): typeof import('./graphql').ProductsGetListDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -108,6 +109,10 @@ export function graphql(source: "query ProductsGetListBySearchInpu($query: Strin
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query ProductsGetRelatedProductsByCategory($categoryName: String!) {\n  products(where: {categories_some: {name: $categoryName}}) {\n    ...ProductListItem\n  }\n}"): typeof import('./graphql').ProductsGetRelatedProductsByCategoryDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query ProductsSortByReviewsRating($first: Int, $skip: Int, $rating: ReviewOrderByInput) {\n  reviews(first: $first, skip: $skip, orderBy: $rating) {\n    product {\n      ...ProductListItem\n    }\n  }\n}"): typeof import('./graphql').ProductsSortByReviewsRatingDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

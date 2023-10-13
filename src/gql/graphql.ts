@@ -11563,7 +11563,6 @@ export type ProductsGetCategoryBySlugQuery = { categories: Array<{ name: string,
 export type ProductsGetListQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
-  rating?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -11589,6 +11588,15 @@ export type ProductsGetRelatedProductsByCategoryQueryVariables = Exact<{
 
 
 export type ProductsGetRelatedProductsByCategoryQuery = { products: Array<{ id: string, name: string, description: string, price: number, reviews: Array<{ rating: number }>, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
+
+export type ProductsSortByReviewsRatingQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  rating?: InputMaybe<ReviewOrderByInput>;
+}>;
+
+
+export type ProductsSortByReviewsRatingQuery = { reviews: Array<{ product?: { id: string, name: string, description: string, price: number, reviews: Array<{ rating: number }>, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null }> };
 
 export type ReviewAddReviewMutationVariables = Exact<{
   content: Scalars['String']['input'];
@@ -11810,12 +11818,8 @@ export const ProductsGetCategoryBySlugDocument = new TypedDocumentString(`
   price
 }`) as unknown as TypedDocumentString<ProductsGetCategoryBySlugQuery, ProductsGetCategoryBySlugQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
-    query ProductsGetList($first: Int, $skip: Int, $rating: Int) {
-  products(
-    first: $first
-    skip: $skip
-    where: {reviews_some: {rating_gte: $rating}}
-  ) {
+    query ProductsGetList($first: Int, $skip: Int) {
+  products(first: $first, skip: $skip) {
     ...ProductListItem
   }
 }
@@ -11901,6 +11905,29 @@ export const ProductsGetRelatedProductsByCategoryDocument = new TypedDocumentStr
   }
   price
 }`) as unknown as TypedDocumentString<ProductsGetRelatedProductsByCategoryQuery, ProductsGetRelatedProductsByCategoryQueryVariables>;
+export const ProductsSortByReviewsRatingDocument = new TypedDocumentString(`
+    query ProductsSortByReviewsRating($first: Int, $skip: Int, $rating: ReviewOrderByInput) {
+  reviews(first: $first, skip: $skip, orderBy: $rating) {
+    product {
+      ...ProductListItem
+    }
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  name
+  description
+  reviews {
+    rating
+  }
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+}`) as unknown as TypedDocumentString<ProductsSortByReviewsRatingQuery, ProductsSortByReviewsRatingQueryVariables>;
 export const ReviewAddReviewDocument = new TypedDocumentString(`
     mutation ReviewAddReview($content: String!, $email: String!, $name: String!, $rating: Int!, $headline: String!, $productId: ID!) {
   createReview(

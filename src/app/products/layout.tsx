@@ -6,15 +6,9 @@ import { ProductsGetListDocument } from "@/gql/graphql";
 export default async function Products({ children, ...rest }: PropsWithChildren) {
 	const { products } = await executeGraphql({
 		query: ProductsGetListDocument,
-		variables: {
-			rating: Number.MIN_SAFE_INTEGER,
-		},
+		variables: {},
 		next: { tags: ["products-list"] },
 	});
 
-	return (
-		<Pagination totalProductsCount={products.length} products={products}>
-			{children}
-		</Pagination>
-	);
+	return <Pagination totalProductsCount={products.length}>{children}</Pagination>;
 }
