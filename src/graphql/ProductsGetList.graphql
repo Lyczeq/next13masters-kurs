@@ -1,5 +1,5 @@
-query ProductsGetList($first: Int, $skip: Int, $price: Int) {
-	products(first: $first, skip: $skip, where: { price_lte: $price }) {
+query ProductsGetList($first: Int, $skip: Int, $rating: Int) {
+	products(first: $first, skip: $skip, where: { reviews_some: { rating_gte: $rating } }) {
 		...ProductListItem
 	}
 }
