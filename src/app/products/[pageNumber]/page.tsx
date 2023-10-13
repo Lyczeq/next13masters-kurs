@@ -17,17 +17,26 @@ type Params = {
 	params: {
 		pageNumber: string;
 	};
+	searchParams: {
+		price?: string;
+	};
 };
 
 type Props = Params;
 
-export default async function Products({ params }: Props) {
+export default async function Products({ params, searchParams }: Props) {
+	console.log(searchParams.price);
+
 	const skip = calculateSkipValue(params.pageNumber);
 	const { products } = await executeGraphql({
 		query: ProductsGetListDocument,
 		variables: {
 			first: PRODUCTS_COUNT_PER_PAGE,
 			skip,
+			price: Number(searchParams.price) || Number.MAX_SAFE_INTEGER,
+		},
+		next: {
+			tags: ["products"],
 		},
 	});
 
