@@ -10,9 +10,10 @@ type Props = {
 	totalProductsCount: number;
 	children: ReactNode;
 	products?: ProductListItemFragment[];
+	price?: string;
 };
 
-export const Pagination = async ({ totalProductsCount, children }: Props) => {
+export const Pagination = async ({ totalProductsCount, children, price }: Props) => {
 	const pageCount = Math.round(totalProductsCount / PRODUCTS_COUNT_PER_PAGE);
 
 	const { products: allProducts } = await executeGraphql({

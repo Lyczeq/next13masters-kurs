@@ -12,9 +12,10 @@ export type Item = {
 
 type Props = {
 	items: Item[];
+	defaultValue?: string;
 };
 
-export const FilterSelect = ({ items }: Props) => {
+export const FilterSelect = ({ items, defaultValue }: Props) => {
 	const router = useRouter();
 
 	const onSelect = (e: any) => {
@@ -24,7 +25,7 @@ export const FilterSelect = ({ items }: Props) => {
 	};
 
 	return (
-		<select name="pets" onChange={onSelect} data-testid="sort-by-price">
+		<select defaultValue={defaultValue} onChange={onSelect} data-testid="sort-by-price" aria-hidden>
 			{items.map((item) => (
 				<option data-testid="product-price" key={item.value} value={item.value}>
 					{item.label}

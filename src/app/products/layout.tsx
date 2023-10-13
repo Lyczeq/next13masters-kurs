@@ -4,7 +4,6 @@ import { Pagination } from "@/components/organisms/Pagination";
 import { ProductsGetListDocument } from "@/gql/graphql";
 
 export default async function Products({ children, ...rest }: PropsWithChildren) {
-	console.log({ rest });
 	const { products } = await executeGraphql({
 		query: ProductsGetListDocument,
 		variables: {
