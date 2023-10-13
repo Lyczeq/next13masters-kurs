@@ -7,7 +7,7 @@ export default async function Products({ children, ...rest }: PropsWithChildren)
 	const { products } = await executeGraphql({
 		query: ProductsGetListDocument,
 		variables: {
-			price: Number.MAX_SAFE_INTEGER,
+			rating: Number.MIN_SAFE_INTEGER,
 		},
 		next: { tags: ["products-list"] },
 	});

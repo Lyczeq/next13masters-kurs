@@ -2,7 +2,7 @@ import { type ReactNode } from "react";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { PRODUCTS_COUNT_PER_PAGE } from "@/constants";
 import { ProductListItemFragment, ProductsGetListDocument } from "@/gql/graphql";
-import { FilterSelect, Item } from "../atoms/FilterSelect";
+import { FilterSelect, Item } from "../atoms/FilterByPriceSelect";
 import { formatPrice } from "@/utils/currency";
 import { executeGraphql } from "@/api/graphqlApi";
 
@@ -16,30 +16,14 @@ type Props = {
 export const Pagination = async ({ totalProductsCount, children, price }: Props) => {
 	const pageCount = Math.round(totalProductsCount / PRODUCTS_COUNT_PER_PAGE);
 
-	const { products: allProducts } = await executeGraphql({
-		query: ProductsGetListDocument,
-		variables: {
-			price: Number.MAX_SAFE_INTEGER,
-		},
-	});
-
-	const filterByPriceItems = (allProducts ?? [])
-		.reduce((accumulator, currentProduct) => {
-			const existingPrice = accumulator.find((item) => item.value === String(currentProduct.price));
-			if (existingPrice) {
-				return accumulator;
-			}
-			accumulator.push({
-				label: formatPrice(currentProduct.price),
-				value: String(currentProduct.price),
-			});
-			return accumulator;
-		}, [] as Item[])
-		.sort((a, b) => Number(a.value) - Number(b.value));
+	// const { products: allProducts } = await executeGraphql({
+	// 	query: ProductsGetListDocument,
+	// 	variables: {},
+	// });
 
 	return (
 		<main className="f.lex min-h-screen flex-col items-center justify-between gap-4 p-12">
-			<FilterSelect items={filterByPriceItems} />
+			{/* <FilterSelect items={filterByPriceItems} /> */}
 			{children}
 			<div>
 				<ul className="flex gap-1" aria-label="pagination">
