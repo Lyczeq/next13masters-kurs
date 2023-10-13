@@ -14,8 +14,8 @@ export function SearchInput() {
 			console.log("a");
 			router.push(`/products/1`);
 		}
-
-		router.push(`/search?query=${value}`);
+		const query = encodeURIComponent(value);
+		router.push(`/search?query=${query}`);
 	};
 
 	const delayedSearch = debounce(onSearch);
