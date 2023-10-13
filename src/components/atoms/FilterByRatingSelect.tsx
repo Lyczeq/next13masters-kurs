@@ -14,14 +14,15 @@ export const FilterByRatingSelect = () => {
 
 	return (
 		<select defaultValue={defaultValue ?? undefined} onChange={onSelect}>
-			<option data-testid="sort-by-rating" value="">
+			{/* <option data-testid="sort-by-rating" value="">
 				Sort by rating
+			</option> */}
+
+			<option data-testid="sort-by-rating" value="DESC">
+				DESC
 			</option>
 			<option data-testid="sort-by-rating" value="ASC">
 				ASC
-			</option>
-			<option data-testid="sort-by-rating" value="DESC">
-				DESC
 			</option>
 		</select>
 	);
