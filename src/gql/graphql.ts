@@ -11563,6 +11563,7 @@ export type ProductsGetCategoryBySlugQuery = { categories: Array<{ name: string,
 export type ProductsGetListQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<ProductOrderByInput>;
 }>;
 
 
@@ -11818,8 +11819,8 @@ export const ProductsGetCategoryBySlugDocument = new TypedDocumentString(`
   price
 }`) as unknown as TypedDocumentString<ProductsGetCategoryBySlugQuery, ProductsGetCategoryBySlugQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
-    query ProductsGetList($first: Int, $skip: Int) {
-  products(first: $first, skip: $skip) {
+    query ProductsGetList($first: Int, $skip: Int, $orderBy: ProductOrderByInput) {
+  products(first: $first, skip: $skip, orderBy: $orderBy) {
     ...ProductListItem
   }
 }

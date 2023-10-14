@@ -25,9 +25,10 @@ type Props = Params;
 
 export default async function Products({ params, searchParams }: Props) {
 	const rating = searchParams.rating;
+	const price = searchParams.price;
 
-	const sortRatingType: ReviewOrderByInput | undefined =
-		rating === "DESC" ? "rating_DESC" : rating === "ASC" ? "rating_ASC" : undefined;
+	const priceOrderBy: ProductOrderByInput | undefined =
+		price === "DESC" ? "price_DESC" : price === "ASC" ? "price_ASC" : undefined;
 
 	const isRatingValid = rating === "DESC" || rating === "ASC";
 
@@ -37,7 +38,7 @@ export default async function Products({ params, searchParams }: Props) {
 		variables: {
 			first: PRODUCTS_COUNT_PER_PAGE,
 			skip,
-			rating: sortRatingType,
+			orderBy: priceOrderBy,
 		},
 		next: {
 			tags: ["products"],
