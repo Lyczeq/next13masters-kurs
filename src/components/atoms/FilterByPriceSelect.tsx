@@ -1,22 +1,11 @@
 "use client";
 
-import { revalidatePath, revalidateTag } from "next/cache";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { ReactEventHandler } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export type Item = {
-	label: string;
-	value: string;
-};
-
-type Props = {
-	items: Item[];
-	defaultValue?: string;
-};
-
-export const FilterByPriceSelect = ({ items, defaultValue }: Props) => {
+export const FilterByPriceSelect = () => {
 	const router = useRouter();
+	const searchParams = useSearchParams();
+	const price = searchParams.get("price") ?? undefined;
 
 	const onSelect = (e: any) => {
 		const price = e.target.value;
@@ -25,15 +14,13 @@ export const FilterByPriceSelect = ({ items, defaultValue }: Props) => {
 	};
 
 	return (
-		<select defaultValue={defaultValue} onChange={onSelect}>
-			<option data-testid="sort-by-price" value="">
-				Choose blah
+		<select defaultValue={price} onChange={onSelect}>
+			<option data-testid="sort-by-price" value="DESC">
+				DESC
 			</option>
-			{items.map((item) => (
-				<option data-testid="sort-by-price" key={item.value} value={item.value}>
-					{item.label}
-				</option>
-			))}
+			<option data-testid="sort-by-price" value="ASC">
+				ASC
+			</option>
 		</select>
 	);
 };

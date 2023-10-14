@@ -2,6 +2,7 @@ import { type ReactNode } from "react";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { PRODUCTS_COUNT_PER_PAGE } from "@/constants";
 import { FilterByRatingSelect } from "../atoms/FilterByRatingSelect";
+import { FilterByPriceSelect } from "../atoms/FilterByPriceSelect";
 
 type Props = {
 	totalProductsCount: number;
@@ -15,6 +16,7 @@ export const Pagination = async ({ totalProductsCount, children, price }: Props)
 	return (
 		<main className="f.lex min-h-screen flex-col items-center justify-between gap-4 p-12">
 			<FilterByRatingSelect />
+			<FilterByPriceSelect />
 			{children}
 			<div>
 				<ul className="flex gap-1" aria-label="pagination">
